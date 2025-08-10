@@ -1,6 +1,6 @@
 // src/App.jsx
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';  // <-- no "-" or "+"
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -19,7 +19,9 @@ import StudentDashboard from './pages/StudentDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminCourses from './pages/AdminCourses';
 import AdminUsers from './pages/AdminUsers';
-import Profile from './pages/Profile'; 
+import Profile from './pages/Profile';
+import EnrollmentsPage from './pages/EnrollmentsPage'; // ✅ New Import
+
 
 const theme = createTheme({
   palette: {
@@ -35,13 +37,16 @@ export default function App() {
 
       <AuthProvider>
         <Navbar />
+
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/course/:id" element={<CourseDetail />} />
 
+          {/* Student Routes */}
           <Route
             path="/dashboard/student"
             element={
@@ -51,24 +56,17 @@ export default function App() {
             }
           />
 
+          {/* Profile Route (Any logged in user) */}
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute role="ANY">
+                <Profile />
+              </PrivateRoute>
+            }
+          />
 
-<Route
-    path="/profile"
-    element={
-      <PrivateRoute role="ANY">  {/* OR remove role check if not needed */}
-        <Profile />
-      </PrivateRoute>
-    }
-  />
-
-  <Route
-    path="/dashboard/student"
-    element={
-      <PrivateRoute role="STUDENT">
-        <StudentDashboard />
-      </PrivateRoute>
-    }
-  />
+          {/* Admin Routes */}
           <Route
             path="/dashboard/admin"
             element={
@@ -77,7 +75,6 @@ export default function App() {
               </PrivateRoute>
             }
           />
-
           <Route
             path="/admin/courses"
             element={
@@ -86,7 +83,6 @@ export default function App() {
               </PrivateRoute>
             }
           />
-
           <Route
             path="/admin/users"
             element={
@@ -95,9 +91,19 @@ export default function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/admin/enrollments" // ✅ New Route
+            element={
+              <PrivateRoute role="ADMIN">
+                <EnrollmentsPage />
+              </PrivateRoute>
+            }
+          />
 
+          {/* Catch-all Redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+
         <ToastContainer position="top-right" autoClose={3000} />
       </AuthProvider>
     </ThemeProvider>
