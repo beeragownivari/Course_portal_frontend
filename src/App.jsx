@@ -21,6 +21,7 @@ import AdminCourses from './pages/AdminCourses';
 import AdminUsers from './pages/AdminUsers';
 import Profile from './pages/Profile';
 import EnrollmentsPage from './pages/EnrollmentsPage'; // ✅ New Import
+import Payments from './pages/Payments'; 
 
 
 const theme = createTheme({
@@ -45,6 +46,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/course/:id" element={<CourseDetail />} />
+         
+
 
           {/* Student Routes */}
           <Route
@@ -99,7 +102,14 @@ export default function App() {
               </PrivateRoute>
             }
           />
-
+          <Route
+  path="/admin/payments"
+  element={
+    <PrivateRoute role="ADMIN">
+      <Payments />
+    </PrivateRoute>
+  }
+/>
           {/* Catch-all Redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

@@ -32,11 +32,11 @@ const AdminDashboard = () => {
       onClick: () => navigate('/admin/enrollments') 
     },
     // inside features array:
-{ 
-  title: 'Payments', 
-  icon: <PaymentIcon />, 
+{
+  title: 'Payments',
+  icon: <PaymentIcon />,
   color: '#d32f2f',
-  onClick: () => navigate('/admin/payments') 
+  onClick: () => navigate('/admin/payments')
 },
 
 
